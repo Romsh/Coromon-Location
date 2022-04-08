@@ -1,1 +1,69 @@
-﻿
+﻿/*CSS 3
+Tenter de faire sans bootstrap.
+Notamment grâce à la la GRID
+*/
+@font-face {
+    font-family: "Press Start";
+    src: url("/font/prstartk.ttf") format("woff");
+}
+body{
+    font-family: "Press Start";
+}
+.wrapper{
+    width: 1000px;
+    margin: auto;
+    display:grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    border: 1px solid black;
+}
+
+.header{
+    grid-column: 1;
+    grid-row: 1;
+    border: 1px solid red;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.logoCoromon{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-start: 1;
+    grid-column: 2/3;
+
+    width: auto;
+    text-align: center;
+    padding:20px;
+}
+
+.logoCoromon img{
+    width:70%;
+    object-fit: contain;
+}
+
+.logoRomsh{
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-start: 1;
+
+    width: auto;
+    margin: auto;
+    margin-left:50px;
+    text-align: center;
+
+}
+.logoRomsh img{
+    width:50px;
+    height:50px;
+    object-fit: contain;
+}
+
+
+
+.container{
+    grid-column: 1;
+    grid-row: 2;
+}
