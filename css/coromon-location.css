@@ -1,20 +1,25 @@
-﻿/*CSS 3
-Tenter de faire sans bootstrap.
-Notamment grâce à la la GRID
-*/
+﻿/* General Settings */
 @font-face {
     font-family: "Press Start";
     src: url("/font/prstartk.ttf") format("woff");
 }
+
+@media (min-width: 576px){
+    .container{
+        max-width: 960px;
+    }
+}
+
 body{
     font-family: "Press Start";
     color:white;
-    text-shadow: 2px 2px black;
     font-size:12px;
     background-color: rgb(32, 32, 32);
+    text-shadow: 1px 1px 1px black;
 }
+
 .wrapper{
-    width: 70rem;
+    width: 50rem;
     height:auto;
     margin: auto;
     padding:0;
@@ -23,6 +28,7 @@ body{
     grid-auto-rows: 100px 35px auto;
 }
 
+/* Header including coromon and Romsh logo */
 .header{
     grid-column: 1;
     grid-row: 1;
@@ -32,8 +38,10 @@ body{
 
     border-width:16px;
     border-style:solid;
-    border-image: url("../images/Coromon_Box.png");
-    border-image-slice: 16 fill;
+    border-image: url("../images/Coromon_Box_2px.png");
+    border-image-slice: 8 fill;
+    border-width: 8px;
+    position: relative;
 }
 
 .logoCoromon{
@@ -48,9 +56,13 @@ body{
 
 .logoCoromon img{
     object-fit: contain;
-    width:60%;
+    width:30%;
     margin:auto;
-    padding:0;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .logoRomsh{
@@ -72,6 +84,9 @@ body{
 }
 
 
+
+
+/* Coromon github app menu */
 
 .navigator{
     grid-column: 1;
@@ -102,9 +117,235 @@ body{
 }
 
 
+
+
+/*  Main body of the website */
+/* Container is all the main body */
 .container{
     padding:10px;
     grid-column: 1;
     grid-row: 3;
     width:100%;
+}
+
+/* All the box for the formn, including input and buttons*/
+.form{
+    width:36rem;
+    display:flex;
+    margin: auto;
+}
+
+.form label{
+    width: 70%;
+}
+
+.mainBox{
+    text-align: center;
+    width:33rem;
+    padding-bottom:5px;
+    margin:auto;
+
+    border-style:solid;
+    border-image: url("../images/grey_box.png");
+    border-image-slice: 6 fill;
+    border-width:6px;
+}
+
+.inputCoromon{
+    width:98%;
+    border-radius: 3px;
+    background-color:#0b0f25;
+    color:white;
+}
+
+.inputCoromon:focus{
+    outline: none;
+}
+
+.buttons{
+    width:2.5rem;
+}
+
+.buttons button{
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    margin:2px;
+    background-color: rgb(32, 32, 32);
+}
+
+.reset{
+    border-style:solid;
+    border-image: url("../images/Red_box_1px.png");
+    border-image-slice: 4 fill;
+    border-width:4px;
+}
+
+.submit{
+    border-style:solid;
+    border-image: url("../images/coromon_box_1px.png");
+    border-image-slice: 4 fill;
+    border-width:4px;
+}
+
+
+/* Responsible of the toggle modal showing searched coromon and the list of places */
+
+.responseModal{
+    width: 33rem;
+    height: 30rem;
+    margin-left:13.7%;
+    margin-top: 5px;
+}
+
+/*Identification of Coromon (to be hide)*/
+.idCard{
+    border-style:solid;
+    border-image: url("../images/grey_box_fancy.png");
+    border-image-slice: 8 fill;
+    border-width:8px;
+}
+
+/* Sprites of Coromons */
+.idCard img{
+    width: 100%;
+    height:auto;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    image-rendering: pixelated;
+}
+
+.coromonNormal, .coromonPotent, .coromonPerfect{
+    width: 120px;
+    height: 120px;
+    display:inline-block;
+    border-style:solid;
+    text-align:center;
+
+    border-image: url("../images/coromon_box_2px.png");
+    border-image-slice: 8 fill;
+    border-width:8px;
+    position: relative;
+}
+
+.sprites{
+    margin:auto;
+    width:fit-content;
+}
+
+/* Identification of coromons */
+.names{
+    width: 23.6rem;
+    margin:auto;
+}
+
+.names label{
+    width: 90px;
+}
+
+.names span{
+    color: #ebbf26;
+    padding:0;
+    margin:0;
+}
+
+.names a{
+    color: #ebbf26;
+    text-decoration: none;
+}
+
+
+
+/* List of location sorted by spawn rate (to be hide) */
+.locationList{
+    margin-top:5px;
+    border-style:solid;
+    border-image: url("../images/grey_slim_2px.png");
+    border-image-slice: 14 fill;
+    border-width:14px;
+}
+
+.locationList ul{
+    list-style-type: none;
+    margin:0;
+    padding: 2px;
+    padding-bottom:0;
+    background-color:rgb(19, 19, 19);
+    font-size: 10px;
+}
+
+.locationList ul:last-child{
+    list-style-type: none;
+    margin:0;
+    padding: 2px;
+    padding-bottom:2px;
+    background-color:rgb(19, 19, 19);
+    font-size: 10px;
+}
+.locationList ul li{
+    background-color:#08115c;
+    border-top: 2px solid #052f72;
+    border-bottom: 2px solid #052f72;
+    height: 3rem;
+    margin-bottom:2px;
+    padding: 8px 2px 2px 5px;
+}
+
+.locationList ul li label{
+    width: 4rem;
+}
+
+.locationList ul li .idLocation, .locationList ul li .idRate{
+    display:inline-block;
+    width: 9.5rem;
+}
+
+.locationList ul li .idName{
+    display:inline-block;
+    width: 25.8rem;
+}
+
+.locationList ul li:last-child{
+    background-color:#08115c;
+    border-top: 2px solid #052f72;
+    border-bottom: 2px solid #052f72;
+    height: 3rem;
+    margin-bottom:0;
+}
+
+.locationList ul li:hover{
+    background-color:#1648ff;
+    border-top: 2px solid #33c5ff;
+    border-bottom: 2px solid #33c5ff;
+    height: 3rem;
+    margin-bottom:2px;
+}
+
+.locationList ul li:last-child:hover{
+    background-color:#1648ff;
+    border-top: 2px solid #33c5ff;
+    border-bottom: 2px solid #33c5ff;
+    height: 3rem;
+    margin-bottom:0;
+}
+
+.locationList ul li.title{
+    border:none;
+    background-color: #252129;
+    height: 3rem;
+    margin-bottom:2px;
+    position: relative;
+    font-size: 12px;
+}
+
+.locationList ul li.title span{
+    display:block;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
