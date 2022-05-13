@@ -4,8 +4,6 @@
     <head>
         <meta charset="utf-8">
         <title>Coromon Location</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
         <link rel="stylesheet" href="css/coromon-location.css">
     </head>
     <body>
@@ -29,117 +27,57 @@
                         <input type="text" name="inputCoromon" class="inputCoromon" />
                     </div>
                     <div class="buttons">
-                        <button class="reset"><img src="images/resetIcon.png"></button>
-                        <button class="submit"><img src="images/submitIcon.png"></button>
+                        <button class="reset"><img src="./images/resetIcon.png"></button>
+                        <button class="submit"><img src="./images/submitIcon.png"></button>
                     </div>
                 </div>
                 <div class="responseModal">
                     <div class="idCard">
                         <div class="sprites">
                             <div class="coromonNormal">
-                                <img class="spriteNormal" src="images/Coromon Sprites/Megalobite_normal.gif" />
+                                <img class="spriteNormal" src="" /><!-- ./images/Coromon Sprites/Toravolt_normal.gif -->
                             </div>
                             <div class="coromonPotent">
-                                <img class="spritePotent" src="images/Coromon Sprites/Megalobite_potent.gif" />
+                                <img class="spritePotent" src="" /> <!-- ./images/Coromon Sprites/Toravolt_potent.gif -->
                             </div>
                             <div class="coromonPerfect">
-                                <img class="spritePerfect" src="images/Coromon Sprites/Megalobite_perfect.gif" />
+                                <img class="spritePerfect" src="" /> <!-- ./images/Coromon Sprites/Toravolt_perfect.gif -->
                             </div>
+                            <!-- spriteNormal, spritePotent and spritePerfect src need to be change accordingly-->
                         </div>
                         <div class="names">
-                            <label for="idCoromon">ID : </label><span name="idCoromon" class="idCoromon">NORMAL_BEE_1</span><br>
-                            <label for="nameCoromon">Nom : </label><span name="nameCoromon" class="nameCoromon">Swurmy</span><br>
-                            <label for="wikiCoromon">Wiki :</label><span name="wikiCoromon" class="wikiCoromon"><a target="_blank" href="https://coromon.wiki.gg/wiki/Swurmy">Click here</a></span>
+                            <label for="idCoromon">ID : </label><span name="idCoromon" class="idCoromon"></span><br>
+                            <label for="nameCoromon">Nom : </label><span name="nameCoromon" class="nameCoromon"></span><br>
+                            <label for="wikiCoromon">Wiki :</label><span name="wikiCoromon" class="wikiCoromon"><a target="_blank" href="">Click here</a></span>
+                            <!-- https://coromon.wiki.gg/wiki/Toravolt-->
+
+                        <!--   Example for coromon ID card informations
+                                idCoromon, nameCoromon and wikiCoromon a href content need to be changed accordingly
+                        -->
                         </div>
                     </div>
                     <div class="locationList">
                         <ul>
-                            <li class="title">
-                                <span>Player's House</span>
-                            </li>
-                            <li>
-                                <label for="idLocation">ID :</label>
-                                <span name="idLocation" class="idLocation">In my room</span>
-                                <label for="idRate">Rate :</label>
-                                <span name="idRate" class="idRate">33% - 1/3</span><br>
-                                <label for="idName">Name :</label>
-                                <span name="idName" class="idName">Close to my door under the blanket</span>
-                            </li>
-                            <li>
-                                <label for="idLocation">ID :</label>
-                                <span name="idLocation" class="idLocation">In my room</span>
-                                <label for="idRate">Rate :</label>
-                                <span name="idRate" class="idRate">33% - 1/3</span><br>
-                                <label for="idName">Name :</label>
-                                <span name="idName" class="idName">Close to my door under the blanket</span>
-                            </li>
-                            <li>
-                                <label for="idLocation">ID :</label>
-                                <span name="idLocation" class="idLocation">In my room</span>
-                                <label for="idRate">Rate :</label>
-                                <span name="idRate" class="idRate">33% - 1/3</span><br>
-                                <label for="idName">Name :</label>
-                                <span name="idName" class="idName">Close to my door under the blanket</span>
-                            </li>
                         </ul>
-                        <ul>
-                            <li class="title">
-                                <span>Player's House</span>
-                            </li>
-                            <li>
-                                <label for="idLocation">ID :</label>
-                                <span name="idLocation" class="idLocation">In my room</span>
-                                <label for="idRate">Rate :</label>
-                                <span name="idRate" class="idRate">33% - 1/3</span><br>
-                                <label for="idName">Name :</label>
-                                <span name="idName" class="idName">Close to my door under the blanket</span>
-                            </li>
-                            <li>
-                                <label for="idLocation">ID :</label>
-                                <span name="idLocation" class="idLocation">In my room</span>
-                                <label for="idRate">Rate :</label>
-                                <span name="idRate" class="idRate">33% - 1/3</span><br>
-                                <label for="idName">Name :</label>
-                                <span name="idName" class="idName">Close to my door under the blanket</span>
-                            </li>
-                            <li>
-                                <label for="idLocation">ID :</label>
-                                <span name="idLocation" class="idLocation">In my room</span>
-                                <label for="idRate">Rate :</label>
-                                <span name="idRate" class="idRate">33% - 1/3</span><br>
-                                <label for="idName">Name :</label>
-                                <span name="idName" class="idName">Close to my door under the blanket</span>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li class="title">
-                                <span>Player's House</span>
-                            </li>
-                            <li>
-                                <label for="idLocation">ID :</label>
-                                <span name="idLocation" class="idLocation">In my room</span>
-                                <label for="idRate">Rate :</label>
-                                <span name="idRate" class="idRate">33% - 1/3</span><br>
-                                <label for="idName">Name :</label>
-                                <span name="idName" class="idName">Close to my door under the blanket</span>
-                            </li>
-                            <li>
-                                <label for="idLocation"></label>
-                                <span name="idLocation" class="idLocation"></span>
-                                <label for="idRate"></label>
-                                <span name="idRate" class="idRate"></span><br>
-                                <label for="idName"></label>
-                                <span name="idName" class="idName">Close to my door under the blanket</span>
-                            </li>
-                            <li>
-                                <label for="idLocation">ID :</label>
-                                <span name="idLocation" class="idLocation">In my room</span>
-                                <label for="idRate">Rate :</label>
-                                <span name="idRate" class="idRate">33% - 1/3</span><br>
-                                <label for="idName">Name :</label>
-                                <span name="idName" class="idName">Close to my door under the blanket</span>
-                            </li>
-                        </ul>
+                        <!--   Example of  structure to be displayed with the complete list of location where the coromon can mainly spawn
+                                Just add/delete <li> in the ul
+
+                                <li class="title">
+                                    <span>Player's House</span>
+                                </li>
+                                <li>
+                                    <div  class="content">
+                                        <label for="idLocation">ID :</label>
+                                        <span name="idLocation" class="idLocation"></span> #20 char
+                                        <label for="idRate">Rate :</label>
+                                        <span name="idRate" class="idRate"></span><br>  #[00% - 0/0]
+                                        <label for="idName">Name :</label>
+                                        <span name="idName" class="idName"></span> #40 char
+                                        <label class="labelPosition" for="idPosition">Horde :</label>
+                                        <span name="idPosition" class="idPosition"></span>  #Non/1ère position/2nd Position/3rd Position
+                                    </div>
+                                </li>
+                        -->
                     </div>
                 </div>
             </div>
@@ -147,4 +85,4 @@
 
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- Jquery -->
-<script src="js/coromon-location.js"></script>
+<script src="./js/coromon-location.js"></script>

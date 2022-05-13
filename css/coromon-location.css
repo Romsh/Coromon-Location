@@ -1,7 +1,7 @@
 ﻿/* General Settings */
 @font-face {
     font-family: "Press Start";
-    src: url("/font/prstartk.ttf") format("woff");
+    src: url("../font/prstartk.ttf") format("woff");
 }
 
 @media (min-width: 576px){
@@ -91,10 +91,13 @@ body{
 .navigator{
     grid-column: 1;
     grid-row: 2;
+    margin:0;
+    padding:0;
 }
 
 .navigator ul{
     padding:0 0 0 0;
+    margin:0;
     display:flex;
     list-style:none;
 }
@@ -156,6 +159,8 @@ body{
     border-radius: 3px;
     background-color:#0b0f25;
     color:white;
+    font-family: "Press Start";
+    border-color: none;
 }
 
 .inputCoromon:focus{
@@ -194,8 +199,9 @@ body{
 .responseModal{
     width: 33rem;
     height: 30rem;
-    margin-left:13.7%;
+    margin-left:7rem;
     margin-top: 5px;
+    display:none;
 }
 
 /*Identification of Coromon (to be hide)*/
@@ -238,7 +244,7 @@ body{
 
 /* Identification of coromons */
 .names{
-    width: 23.6rem;
+    width: 26.5rem;
     margin:auto;
 }
 
@@ -275,6 +281,7 @@ body{
     padding-bottom:0;
     background-color:rgb(19, 19, 19);
     font-size: 10px;
+    min-height: 5rem;
 }
 
 .locationList ul:last-child{
@@ -285,34 +292,47 @@ body{
     background-color:rgb(19, 19, 19);
     font-size: 10px;
 }
+
 .locationList ul li{
     background-color:#08115c;
     border-top: 2px solid #052f72;
     border-bottom: 2px solid #052f72;
-    height: 3rem;
-    margin-bottom:2px;
-    padding: 8px 2px 2px 5px;
+    height: 5rem;
+    position: relative;
 }
 
 .locationList ul li label{
     width: 4rem;
 }
 
+.locationList ul li .labelPosition{
+    width: 7em;
+}
+
 .locationList ul li .idLocation, .locationList ul li .idRate{
     display:inline-block;
-    width: 9.5rem;
+    color: #ebbf26;
+}
+
+.locationList ul li .idLocation{
+    width: 13rem;
 }
 
 .locationList ul li .idName{
     display:inline-block;
-    width: 25.8rem;
+    width: 24rem;
+    color: #ebbf26;
+}
+
+.locationList ul li .idPosition{
+    color: #ebbf26;
 }
 
 .locationList ul li:last-child{
     background-color:#08115c;
     border-top: 2px solid #052f72;
     border-bottom: 2px solid #052f72;
-    height: 3rem;
+    height: 3.5rem;
     margin-bottom:0;
 }
 
@@ -320,7 +340,7 @@ body{
     background-color:#1648ff;
     border-top: 2px solid #33c5ff;
     border-bottom: 2px solid #33c5ff;
-    height: 3rem;
+    height: 5rem;
     margin-bottom:2px;
 }
 
@@ -348,4 +368,12 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+.locationList .content{
+    width:29rem;
+    margin:0;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
 }
