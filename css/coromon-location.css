@@ -193,15 +193,48 @@ body{
     border-width:4px;
 }
 
+/* Error modal displayed when trying to enter wrong things */
+#outerError{
+    margin-left:7rem;
+    text-align: center;
+    width:66.6%;
+    display:none;
+}
+
+.errorModal{
+    margin-top: 2px;
+    border-style:solid;
+    border-image: url("../images/grey_box_fancy.png");
+    border-image-slice: 8 fill;
+    border-width:8px;
+    display:inline-block;
+}
+
+.errorModal span{
+    display:inline-block;
+    background-color:#0b0f25;
+    height:0.9rem;
+    border-width:1px;
+    border-radius: 3px;
+    border-color: rgb(184, 184, 184);
+    border-style: solid;
+    color:red;
+    font-family: "Press Start";
+    padding-top:0.2rem;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+}
+
 
 /* Responsible of the toggle modal showing searched coromon and the list of places */
 
 .responseModal{
-    width: 33rem;
+    width: 33.5rem;
     height: 30rem;
     margin-left:7rem;
     margin-top: 5px;
     display:none;
+    /* display:block; */
 }
 
 /*Identification of Coromon (to be hide)*/
@@ -248,8 +281,35 @@ body{
     margin:auto;
 }
 
+.names div{
+    margin-top:8px;
+    margin-bottom:15px;
+}
+
+.names div:last-child{
+    margin-top:8px;
+    margin-bottom:8px;
+}
+
 .names label{
     width: 90px;
+    padding: 2px 2px 2px 2px;
+    border-style:solid;
+    border-image: url("../images/coromon_box_1px.png");
+    border-image-slice: 4 fill;
+    border-width:4px;
+}
+
+.idLabel{
+    margin-right: 32px;
+}
+
+.nameLabel{
+    margin-right: 18px;
+}
+
+.wikiLabel{
+    margin-right: 8px;
 }
 
 .names span{
@@ -328,6 +388,11 @@ body{
     color: #ebbf26;
 }
 
+.locationList ul li{
+    height: 3.5rem;
+    margin-bottom:2px;
+}
+
 .locationList ul li:last-child{
     background-color:#08115c;
     border-top: 2px solid #052f72;
@@ -340,7 +405,7 @@ body{
     background-color:#1648ff;
     border-top: 2px solid #33c5ff;
     border-bottom: 2px solid #33c5ff;
-    height: 5rem;
+    height: 3.5rem;
     margin-bottom:2px;
 }
 
@@ -348,7 +413,7 @@ body{
     background-color:#1648ff;
     border-top: 2px solid #33c5ff;
     border-bottom: 2px solid #33c5ff;
-    height: 3rem;
+    height: 3.5rem;
     margin-bottom:0;
 }
 
