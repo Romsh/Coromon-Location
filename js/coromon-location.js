@@ -26,19 +26,38 @@ $(document).ready(function(){
 });
 
 function reset(all){
-    $(".responseModal").css("display","none");
-    $("#outerError").css("display","none");
-    $(".spriteNormal").attr("src","");
-    $(".spritePotent").attr("src","");
-    $(".spritePerfect").attr("src","");
-    $(".idCoromon").text("");
-    $(".nameCoromon").text("");
-    $(".wikiCoromon a").attr("href","");
-    $(".locationList ul")[0].innerHTML = "";
 
     switch(all){
         case "all":
+            $(".responseModal").css("display","none");
+            $("#outerError").css("display","none");
+            $(".spriteNormal").attr("src","");
+            $(".spritePotent").attr("src","");
+            $(".spritePerfect").attr("src","");
+            $(".idCoromon").text("");
+            $(".nameCoromon").text("");
+            $(".wikiCoromon a").attr("href","");
+            $(".locationList ul")[0].innerHTML = "";
             $(".inputCoromon").val("");
+            break;
+        case 1: // Coromon not found
+            $(".responseModal").css("display","none");
+            $("#outerError").css("display","none");
+            $(".spriteNormal").attr("src","");
+            $(".spritePotent").attr("src","");
+            $(".spritePerfect").attr("src","");
+            $(".idCoromon").text("");
+            $(".nameCoromon").text("");
+            $(".wikiCoromon a").attr("href","");
+            $(".locationList ul")[0].innerHTML = "";
+            $(".responseModal").css("display","none");
+            $("#outerError").css("display","block");
+            $(".errorModal span").text("Error : Coromon not found");
+            break;
+        case 2: // Coromon found but can't be encountered in the wild
+            $(".locationList").css("display","none");
+            $("#outerError").css("display","block");
+            $(".errorModal span").text("The Coromon can't be encountered.");
             break;
     }
 }
@@ -54,9 +73,6 @@ function getCoromon(){
         setResponseModale(coromonID,sortedList);
     }else{
         reset(1);
-        $(".responseModal").css("display","none");
-        $("#outerError").css("display","block");
-        $(".errorModal span").text("Error : Coromon not found");
     }
 }
 
@@ -104,91 +120,129 @@ function getCoromonName(coromonID){
 function getLocationsByCoromonID(coromonID){
     var res = [];
     //place is the location
+    /*
+        Place : Title
+        SubPlace : Location (A place can have multiple subplace)
+        Rate : currProba/probaTotal to be calculate
+        Position
+    */
     for(place in COROMONDATA.encounterList){
-        let obj = new Object();
-        obj.title = place; //.title span here
-        obj.place = new Object();
-        obj.place.list = new Object();
-        obj.place.list.encounters = [];
-
-        let placeFound = false;
-        //Object with the list of subplace inside each place. Coromon found on ground or on water
         let p = COROMONDATA.encounterList[place];
 
+        let placeObj = null;
+        placeObj = new Object();
+        placeObj.title = place; //Place : Title
+        placeObj.subPlaces = [];
+        let f = false;
+
         for(subPlace in p){
-            //List of each possible encounter inside each subplace
-            let enc = p[subPlace].encounter;
-            obj.place.location = subPlace; //.idLocation here
-            //probability total of encounters.
-            let probaTotal = 0;
+            let sb = p[subPlace];
+            let sbObj = new Object();
+            sbObj.location = null; //SubPlace : Location
+            sbObj.encounters = null; // list of encounters (rate,position in battle)
 
-            //en is the index of the encounter, each row is a single encounter with 1-3 coromons possible
-            for(en in enc){
-                let currEncounter = enc[en];
-                let currProba = currEncounter[0];
-                let coromonList = currEncounter[1];
-                probaTotal += currProba;
+            let en = sb.encounter;
+            let maxProba = 0;
+            let sbFound = false;
 
-                //coromons list of ONE encounter
-                let i = 0;
-                for(c in coromonList){
-                    i++;
-                    let currCoromonID = coromonList[c].UID;
-                    if(currCoromonID == coromonID){
-                        placeFound = true;
-                        let e = {
-                            "rate":currProba,
-                            "position":i
-                        }
-                        obj.place.list.encounters.push(e);
+            for(e in en){
+                maxProba += en[e][0];  //rate
+                let co = en[e][1]; // coromon list
+                let list = null;
+                let enObj = new Object();
+                let enFound = false;
+
+                for(let i=0;i<co.length;i++){
+                    pos = i;
+                    if(co[i].UID == coromonID){
+                        enObj.rate = en[e][0];
+                        enObj.position = i+1;
+                        enFound = true;
+                        sbFound = true;
+                        f = true;
+                        found = true;
+                        list = enObj;
                     }
                 }
+                if(enFound){
+                    sbObj.location = subPlace;
+                    sbObj.encounters = list;
+                }
             }
-            obj.place.list.probaTotal = probaTotal;
-        }
 
-        if(placeFound){
-            res.push(obj);
+            sbObj.maxProba = maxProba;
+
+            if(sbFound && sbObj.encounters != null){
+                placeObj.subPlaces.push(sbObj);
+            }
+        }
+        if(placeObj != null && f){
+            res.push(placeObj);
         }
     }
     return res;
 }
 
 function sortEncounterList(encounterList){
+    let resTmp = [];
+    let res = [];
+    for(place in encounterList){
+        let currPlace = encounterList[place];
+        let currTmpObj = new Object();
+        currTmpObj.title = encounterList[place].title;
+        let sortedSubPlace = sortSubPlaces(encounterList[place].subPlaces);
+        currTmpObj.subPlaces = sortedSubPlace;
+        resTmp.push(currTmpObj);
+    }
+
+    res = sortPlaceByFirstSubPlace(resTmp);
+    return res;
+}
+
+function sortSubPlaces(subPlaces){
     let res = [];
 
-    let elLength = encounterList.length;
-    for(let i=0;i<elLength;i++){
-        let maxIndex = -1;
+    let cmp = subPlaces.length;
+    for(let i=0;i<cmp;i++){
+        let indexMax = -1;
         let maxRate = -1;
-        for(let j=0;j<encounterList.length;j++){
-            let currIndex = j;
-            let currRate = -1;
-            let currMax = -1;
-
-            let currProbaTotal = encounterList[j].place.list.probaTotal;
-            let currEL = encounterList[j].place.list.encounters;
-            for(let k=0;k<currEL.length;k++){
-                if(currEL[k].rate > currMax){
-                    currMax = currEL[k].rate;
-                }
-            }
-            currRate = currMax / currProbaTotal;
-            if(currRate > maxRate){
-                maxIndex = currIndex;
-                maxRate = currRate;
+        for(let j=0;j<subPlaces.length;j++){
+            let maxProba = subPlaces[j].maxProba;
+            let cMR = maxRate/maxProba;
+            let mr = subPlaces[j].encounters.rate/maxProba;
+            if(cMR > mr){
+                indexMax = j;
+                maxRate = subPlaces[j].encounters.rate;
             }
         }
 
-        if(maxIndex >= 0){
-            let sp = encounterList.splice(maxIndex,1);
-            res[i] = sp[0];
-        }
+        res.push(subPlaces.splice(indexMax,1)[0]);
     }
     return res;
 }
 
-function setResponseModale(coromonID, encounterList){
+function sortPlaceByFirstSubPlace(encounterList){
+    let res = [];
+
+    let cmp = encounterList.length;
+    for(let i=0;i<cmp;i++){
+        let indexMax = -1;
+        let maxRate = -1;
+        for(let j=0;j<encounterList.length;j++){
+            let maxProba = encounterList[j].subPlaces[0].maxProba;
+            let cMR = maxRate/maxProba;
+            let mr = encounterList[j].subPlaces[0].encounters.rate/maxProba;
+            if(cMR < mr){
+                indexMax = j;
+                maxRate = encounterList[j].subPlaces[0].encounters.rate;
+            }
+        }
+        res.push(encounterList.splice(indexMax,1)[0])
+    }
+    return res;
+}
+
+function setResponseModale(coromonID, encounterList){ // A REFAIRE
 
     let coromonName = getCoromonName(coromonID);
     let ul = $(".locationList ul");
@@ -205,25 +259,21 @@ function setResponseModale(coromonID, encounterList){
     let res = "";
 
     //location list
-    console.log(encounterList);
     for(let i=0;i<encounterList.length;i++){
-        let townObj = encounterList[i];
-        let placeObj = townObj.place;
-        let listObj = placeObj.list;
-        let encountersObj = listObj.encounters;
-
+        let townObj = encounterList[i]; //places
+        let spObj = townObj.subPlaces;  //subplaces
         let title = townObj.title;
-        let location = placeObj.location;
-        let probaTotal = listObj.probaTotal;
 
         res += "<li class=\"title\">\n";
         res += "<span>"+title+"</span>\n";    //Place
         res += "</li>\n";
 
-        for(let i=0;i<encountersObj.length;i++){
-            let rate = encountersObj[i].rate / probaTotal;
+        for(let j=0;j<spObj.length;j++){
+            let location = spObj[j].location;
+            let probaTotal = spObj[j].maxProba;
+            let rate = spObj[j].encounters.rate / probaTotal;
             let rateP = Math.floor(rate * 100);
-            let position = encountersObj[i].position;
+            let position = spObj[j].encounters.position;
 
             res += "<li><div class=\"content\">\n";
             res += "<label for=\"idLocation\">ID :</label>\n";
@@ -234,7 +284,7 @@ function setResponseModale(coromonID, encounterList){
             res += "<span name=\"idName\" class=\"idName\">"+location+"</span>\n";    // To be modify afterward
             res += "<label class=\"labelPosition\" for=\"idPosition\">Horde :</label>\n";
             res += "<span name=\"idPosition\" class=\"idPosition\">"+position+"</span>\n";
-            res += "</div></li>"
+            res += "</div></li>";
         }
     }
 
