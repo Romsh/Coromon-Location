@@ -246,10 +246,10 @@ body{
 }
 
 /* Sprites of Coromons */
-.idCard img{
-    width: 100%;
-    height:auto;
-    margin: 0;
+.spriteNormal, .spritePotent, .spritePerfect{
+    max-width: 120px;
+    max-height: 120px;
+    height:100%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -273,6 +273,7 @@ body{
 .sprites{
     margin:auto;
     width:fit-content;
+    
 }
 
 /* Identification of coromons */
@@ -305,7 +306,7 @@ body{
 }
 
 .nameLabel{
-    margin-right: 18px;
+    margin-right: 0px;
 }
 
 .wikiLabel{
