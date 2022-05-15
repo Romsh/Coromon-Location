@@ -249,7 +249,7 @@ body{
 .spriteNormal, .spritePotent, .spritePerfect{
     max-width: 120px;
     max-height: 120px;
-    height:100%;
+    height:60%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -273,7 +273,6 @@ body{
 .sprites{
     margin:auto;
     width:fit-content;
-    
 }
 
 /* Identification of coromons */
@@ -306,7 +305,7 @@ body{
 }
 
 .nameLabel{
-    margin-right: 0px;
+    margin-right: 22px;
 }
 
 .wikiLabel{
@@ -377,16 +376,19 @@ body{
 
 .locationList ul li .idLocation{
     width: 16rem;
+    margin-bottom:2px;
 }
 
 .locationList ul li .idName{
     display:inline-block;
     width: 24rem;
     color: #ebbf26;
+    margin-bottom:2px;
 }
 
 .locationList ul li .idPosition{
     color: #ebbf26;
+    margin-bottom:2px;
 }
 
 .locationList ul li{
