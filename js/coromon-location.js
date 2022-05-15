@@ -1,9 +1,15 @@
 ﻿var COROMONDATA = {
-    encounterList : "",
-    coromonToBdd : ""
+    encounterList : null,
+    coromonToBdd : null
 }
 
+
 $(document).ready(function(){
+    (async function(){
+        await getEncounterListPromise();
+        await getCoromonToBdd();
+    })();
+
     $(".reset").click(function(){
         reset("all");
     });
@@ -17,11 +23,6 @@ $(document).ready(function(){
             getCoromon();
         }
     })
-
-    COROMONDATA = {
-        encounterList:getEncounterListPromise(),
-        coromonToBdd:getCoromonToBdd()
-    }
 });
 
 function reset(all){
@@ -45,14 +46,12 @@ function reset(all){
 function getCoromon(){
     var coromonInput = inputReplace($(".inputCoromon").val());
     var coromonID = getCoromonID(capitalizeFirstLetter(coromonInput));
-
     if(coromonID != null){
         $("#outerError").css("display","none");
         $(".responseModal").css("display","block");
-        var l = getLocationsByCoromonID(coromonID);
-        console.log(coromonID);
-        console.log(l);
-        setResponseModale(coromonID,l);
+        let list = getLocationsByCoromonID(coromonID);
+        let sortedList = sortEncounterList(list);
+        setResponseModale(coromonID,sortedList);
     }else{
         reset(1);
         $(".responseModal").css("display","none");
@@ -71,17 +70,19 @@ function capitalizeFirstLetter(string) {
 }
 
 
-function getEncounterListPromise(){
-    fetch("./data/EncounterList.json").then(res=>res.json()).then(data => (COROMONDATA.encounterList = data));
+async function getEncounterListPromise(){
+    //return fetch("./data/EncounterList.json").then(res=> res.json());
+    fetch("./data/EncounterList.json").then(res=> res.json()).then(json => (COROMONDATA.encounterList =  json));
+
 }
 
-function getCoromonToBdd(){
-    fetch("./data/CoromonToBDD.json").then(res=>res.json()).then(data => (COROMONDATA.coromonToBdd = data));;
+async function getCoromonToBdd(){
+    fetch("./data/CoromonToBDD.json").then(res=> res.json()).then(json => (COROMONDATA.coromonToBdd =  json));
 }
 
-
+/* Essayer de prendre en compte les Promises */
 function getCoromonID(coromonName){
-    var coromons = COROMONDATA.coromonToBdd.coromons;
+    let coromons = COROMONDATA.coromonToBdd.coromons;
     for(key in coromons){
         if(coromons[key] == coromonName){
             return key;
@@ -153,19 +154,41 @@ function getLocationsByCoromonID(coromonID){
     return res;
 }
 
-function setResponseModale(coromonID, encounterList){
-    /*
-        Choses à modifier :
-            .idCoromon => coromonID
-            .nameCoromon =>  getCoromonName(coromonID)
-            .wikiCoromon.href => https://coromon.wiki.gg/wiki/getCoromonName(coromonID)
+function sortEncounterList(encounterList){
+    let res = [];
 
-        .title span => Place
-        .idLocation => subPlace
-        .idRate => currProba/probaTotal
-        .idName => description de la zone, à laisser pour le moment, il faut que je fasse un json IDLocation => Description
-        .idPosition => 1st, 2nd or 3rd position in an encounter
-    */
+    let elLength = encounterList.length;
+    for(let i=0;i<elLength;i++){
+        let maxIndex = -1;
+        let maxRate = -1;
+        for(let j=0;j<encounterList.length;j++){
+            let currIndex = j;
+            let currRate = -1;
+            let currMax = -1;
+
+            let currProbaTotal = encounterList[j].place.list.probaTotal;
+            let currEL = encounterList[j].place.list.encounters;
+            for(let k=0;k<currEL.length;k++){
+                if(currEL[k].rate > currMax){
+                    currMax = currEL[k].rate;
+                }
+            }
+            currRate = currMax / currProbaTotal;
+            if(currRate > maxRate){
+                maxIndex = currIndex;
+                maxRate = currRate;
+            }
+        }
+
+        if(maxIndex >= 0){
+            let sp = encounterList.splice(maxIndex,1);
+            res[i] = sp[0];
+        }
+    }
+    return res;
+}
+
+function setResponseModale(coromonID, encounterList){
 
     let coromonName = getCoromonName(coromonID);
     let ul = $(".locationList ul");
@@ -179,19 +202,41 @@ function setResponseModale(coromonID, encounterList){
     $(".nameCoromon").text(coromonName);
     $(".wikiCoromon a").attr("href","https://coromon.wiki.gg/wiki/"+coromonName);
 
-    let res = "<li class=\"title\">\n";
-    res += "<span>Test1</span>\n";    //Place
-    res += "</li>\n";
-    res += "<li><div class=\"content\">\n";
-    res += "<label for=\"idLocation\">ID :</label>\n";
-    res += "<span name=\"idLocation\" class=\"idLocation\">sub test</span>\n";  //subPlace
-    res += "<label for=\"idRate\">Rate :</label>\n";
-    res += "<span name=\"idRate\" class=\"idRate\">33%</span><br>\n"; // currProba/probaTotal to be calculate
-    res += "<label for=\"idName\">Name :</label>\n";
-    res += "<span name=\"idName\" class=\"idName\">Wesh comment ça va</span>\n";    // To be modify afterward
-    res += "<label class=\"labelPosition\" for=\"idPosition\">Horde :</label>\n";
-    res += "<span name=\"idPosition\" class=\"idPosition\">1</span>\n";    //Position
-    res += "</div></li>"
+    let res = "";
 
-    //$(res).appendTo(ul);
+    //location list
+    console.log(encounterList);
+    for(let i=0;i<encounterList.length;i++){
+        let townObj = encounterList[i];
+        let placeObj = townObj.place;
+        let listObj = placeObj.list;
+        let encountersObj = listObj.encounters;
+
+        let title = townObj.title;
+        let location = placeObj.location;
+        let probaTotal = listObj.probaTotal;
+
+        res += "<li class=\"title\">\n";
+        res += "<span>"+title+"</span>\n";    //Place
+        res += "</li>\n";
+
+        for(let i=0;i<encountersObj.length;i++){
+            let rate = encountersObj[i].rate / probaTotal;
+            let rateP = Math.floor(rate * 100);
+            let position = encountersObj[i].position;
+
+            res += "<li><div class=\"content\">\n";
+            res += "<label for=\"idLocation\">ID :</label>\n";
+            res += "<span name=\"idLocation\" class=\"idLocation\">"+location+"</span>\n";  //subPlace
+            res += "<label for=\"idRate\">Rate :</label>\n";
+            res += "<span name=\"idRate\" class=\"idRate\">"+rateP+"%</span><br>\n"; // currProba/probaTotal to be calculate
+            res += "<label for=\"idName\">Name :</label>\n";
+            res += "<span name=\"idName\" class=\"idName\">"+location+"</span>\n";    // To be modify afterward
+            res += "<label class=\"labelPosition\" for=\"idPosition\">Horde :</label>\n";
+            res += "<span name=\"idPosition\" class=\"idPosition\">"+position+"</span>\n";
+            res += "</div></li>"
+        }
+    }
+
+    $(res).appendTo(ul);
 }
