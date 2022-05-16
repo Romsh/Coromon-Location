@@ -265,7 +265,7 @@ body{
     border-style:solid;
     text-align:center;
 
-    border-image: url("../images/coromon_box_2px.png");
+    border-image: url("../images/Coromon_box_2px.png");
     border-image-slice: 8 fill;
     border-width:8px;
     position: relative;
@@ -296,7 +296,7 @@ body{
     width: 90px;
     padding: 2px 2px 2px 2px;
     border-style:solid;
-    border-image: url("../images/coromon_box_1px.png");
+    border-image: url("../images/Coromon_box_1px.png");
     border-image-slice: 4 fill;
     border-width:4px;
 }
