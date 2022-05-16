@@ -199,24 +199,31 @@ function sortEncounterList(encounterList){
     return res;
 }
 
-function sortSubPlaces(subPlaces){
+function sortSubPlaces(subPlaces){  //A REFAIRE
     let res = [];
 
     let cmp = subPlaces.length;
     for(let i=0;i<cmp;i++){
         let indexMax = -1;
-        let maxRate = -1;
         for(let j=0;j<subPlaces.length;j++){
-            let maxProba = subPlaces[j].maxProba;
-            let cMR = maxRate/maxProba;
-            let mr = subPlaces[j].encounters.rate/maxProba;
-            if(cMR > mr){
+            if(j>0){
+                let currSP = subPlaces[j];
+                let currRate = currSP.encounters.rate;
+                let currMaxProba = currSP.maxProba;
+                let maxProba = subPlaces[indexMax].maxProba;
+                let maxRate = subPlaces[indexMax].encounters.rate;
+
+                let maxRatio = maxRate/maxProba;
+                let currRatio = currRate/currMaxProba;
+                if(currRatio > maxRatio){
+                    indexMax = j;
+                }
+            }else{
                 indexMax = j;
-                maxRate = subPlaces[j].encounters.rate;
             }
         }
-
-        res.push(subPlaces.splice(indexMax,1)[0]);
+        let tmp = subPlaces.splice(indexMax,1)[0];
+        res.push(tmp);
     }
     return res;
 }
@@ -227,14 +234,21 @@ function sortPlaceByFirstSubPlace(encounterList){
     let cmp = encounterList.length;
     for(let i=0;i<cmp;i++){
         let indexMax = -1;
-        let maxRate = -1;
         for(let j=0;j<encounterList.length;j++){
-            let maxProba = encounterList[j].subPlaces[0].maxProba;
-            let cMR = maxRate/maxProba;
-            let mr = encounterList[j].subPlaces[0].encounters.rate/maxProba;
-            if(cMR < mr){
-                indexMax = j;
-                maxRate = encounterList[j].subPlaces[0].encounters.rate;
+            if(j>0){
+                let currEL = encounterList[j];
+                let currRate = currEL.subPlaces[0].encounters.rate;
+                let currMaxProba = currEL.subPlaces[0].maxProba;
+                let maxProba = encounterList[indexMax].subPlaces[0].maxProba;
+                let maxRate = encounterList[indexMax].subPlaces[0].encounters.rate;
+
+                let maxRatio = maxRate/maxProba;
+                let currRatio = currRate/currMaxProba;
+                if(currRatio > maxRatio){
+                    indexMax = j;
+                }
+            }else{
+                indexMax = 0;
             }
         }
         res.push(encounterList.splice(indexMax,1)[0])
