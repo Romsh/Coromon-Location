@@ -189,7 +189,7 @@ body{
 
 .submit{
     border-style:solid;
-    border-image: url("../images/coromon_box_1px.png");
+    border-image: url("../images/Coromon_box_1px.png");
     border-image-slice: 4 fill;
     border-width:4px;
 }
