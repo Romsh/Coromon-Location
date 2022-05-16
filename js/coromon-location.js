@@ -68,6 +68,7 @@ function getCoromon(){
     if(coromonID != null){
         $("#outerError").css("display","none");
         $(".responseModal").css("display","block");
+        $(".locationList").css("display","block");
         let list = getLocationsByCoromonID(coromonID);
         let sortedList = sortEncounterList(list);
         setResponseModale(coromonID,sortedList);
@@ -119,13 +120,6 @@ function getCoromonName(coromonID){
 
 function getLocationsByCoromonID(coromonID){
     var res = [];
-    //place is the location
-    /*
-        Place : Title
-        SubPlace : Location (A place can have multiple subplace)
-        Rate : currProba/probaTotal to be calculate
-        Position
-    */
     for(place in COROMONDATA.encounterList){
         let p = COROMONDATA.encounterList[place];
 
@@ -272,34 +266,38 @@ function setResponseModale(coromonID, encounterList){ // A REFAIRE
 
     let res = "";
 
-    //location list
-    for(let i=0;i<encounterList.length;i++){
-        let townObj = encounterList[i]; //places
-        let spObj = townObj.subPlaces;  //subplaces
-        let title = townObj.title;
+    if(encounterList.length > 0){
+        //location list
+        for(let i=0;i<encounterList.length;i++){
+            let townObj = encounterList[i]; //places
+            let spObj = townObj.subPlaces;  //subplaces
+            let title = townObj.title;
 
-        res += "<li class=\"title\">\n";
-        res += "<span>"+title+"</span>\n";    //Place
-        res += "</li>\n";
+            res += "<li class=\"title\">\n";
+            res += "<span>"+title+"</span>\n";    //Place
+            res += "</li>\n";
 
-        for(let j=0;j<spObj.length;j++){
-            let location = spObj[j].location;
-            let probaTotal = spObj[j].maxProba;
-            let rate = spObj[j].encounters.rate / probaTotal;
-            let rateP = Math.floor(rate * 100);
-            let position = spObj[j].encounters.position;
+            for(let j=0;j<spObj.length;j++){
+                let location = spObj[j].location;
+                let probaTotal = spObj[j].maxProba;
+                let rate = spObj[j].encounters.rate / probaTotal;
+                let rateP = Math.floor(rate * 100);
+                let position = spObj[j].encounters.position;
 
-            res += "<li><div class=\"content\">\n";
-            res += "<label for=\"idLocation\">ID :</label>\n";
-            res += "<span name=\"idLocation\" class=\"idLocation\">"+location+"</span>\n";  //subPlace
-            res += "<label for=\"idRate\">Rate :</label>\n";
-            res += "<span name=\"idRate\" class=\"idRate\">"+rateP+"%</span><br>\n"; // currProba/probaTotal to be calculate
-            res += "<label for=\"idName\">Name :</label>\n";
-            res += "<span name=\"idName\" class=\"idName\">"+location+"</span>\n";    // To be modify afterward
-            res += "<label class=\"labelPosition\" for=\"idPosition\">Horde :</label>\n";
-            res += "<span name=\"idPosition\" class=\"idPosition\">"+position+"</span>\n";
-            res += "</div></li>";
+                res += "<li><div class=\"content\">\n";
+                res += "<label for=\"idLocation\">ID :</label>\n";
+                res += "<span name=\"idLocation\" class=\"idLocation\">"+location+"</span>\n";  //subPlace
+                res += "<label for=\"idRate\">Rate :</label>\n";
+                res += "<span name=\"idRate\" class=\"idRate\">"+rateP+"%</span><br>\n"; // currProba/probaTotal to be calculate
+                res += "<label for=\"idName\">Name :</label>\n";
+                res += "<span name=\"idName\" class=\"idName\">"+location+"</span>\n";    // To be modify afterward
+                res += "<label class=\"labelPosition\" for=\"idPosition\">Horde :</label>\n";
+                res += "<span name=\"idPosition\" class=\"idPosition\">"+position+"</span>\n";
+                res += "</div></li>";
+            }
         }
+    }else{
+        reset(2);
     }
 
     $(res).appendTo(ul);
