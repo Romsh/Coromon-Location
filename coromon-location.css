@@ -4,6 +4,7 @@
     src: url("./font/prstartk.ttf") format("woff");
 }
 
+
 @media (min-width: 576px){
     .container{
         max-width: 960px;
